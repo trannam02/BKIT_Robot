@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "spi.h"
+#include "software_timer.h"
 
 // Some macro
 #define LED7SEG_ENABLE_1 HAL_GPIO_WritePin(LED7_EN1_GPIO_Port, LED7_EN1_Pin, GPIO_PIN_RESET);
@@ -27,10 +28,10 @@
 
 
 void LED_init();
-
-/**
- * @brief  Main fsm for led control
- * @retval None
- */
 void LED_fsm_run();
+void test_led_control();
+
+void set_seg_1(uint8_t data);
+void set_seg_2(uint8_t data);
+void set_led_array(uint8_t data);
 #endif /* INC_LED_CONTROL_H_ */

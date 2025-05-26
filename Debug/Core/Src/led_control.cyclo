@@ -1,0 +1,8 @@
+../Core/Src/led_control.c:24:6:LED_init	1
+../Core/Src/led_control.c:37:6:latch_data	1
+../Core/Src/led_control.c:48:6:LED_fsm_run	8
+../Core/Src/led_control.c:95:9:digit_to_segment	2
+../Core/Src/led_control.c:99:6:set_seg_1	1
+../Core/Src/led_control.c:102:6:set_seg_2	1
+../Core/Src/led_control.c:105:6:set_led_array	1
+../Core/Src/led_control.c:114:6:test_led_control	1
