@@ -23,6 +23,8 @@ void timerRun(){
 	timerArray[1]--;
 	timerArray[2]--;
 	timerArray[3]--;
+	timerArray[4]--;
+	timerArray[5]--;
 	if(timerArray[0] <= 0){
 		timerFlag[0] = 1;
 	};
@@ -34,6 +36,12 @@ void timerRun(){
 	};
 	if(timerArray[3] <= 0){
 		timerFlag[3] = 1;
+	};
+	if(timerArray[4] <= 0){
+		timerFlag[4] = 1;
+	};
+	if(timerArray[5] <= 0){
+		timerFlag[5] = 1;
 	};
 };
 

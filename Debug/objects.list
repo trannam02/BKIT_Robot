@@ -1,4 +1,6 @@
+"./Core/Src/buzzer.o"
 "./Core/Src/gpio.o"
+"./Core/Src/input_scan.o"
 "./Core/Src/led_control.o"
 "./Core/Src/main.o"
 "./Core/Src/software_timer.o"

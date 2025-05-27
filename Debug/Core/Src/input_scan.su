@@ -1,0 +1,2 @@
+../Core/Src/input_scan.c:9:6:INPUT_SCAN_fsm_run	4	static
+../Core/Src/input_scan.c:12:6:INPUT_SCAN_init	4	static

@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include "software_timer.h"
 #include "led_control.h"
+#include "buzzer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,8 +93,9 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,6 +113,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  LED_fsm_run();
+	  BUZZER_fsm_run();
 	  if(getFlag(0) == 1){
 		  setTimer(0, 1000);
 		  count++;
@@ -118,7 +121,7 @@ int main(void)
 	  };
 
 	  if(getFlag(2) == 1){
-		  setTimer(2, 100);
+		  setTimer(2, 300);
 		  set_led_array(arr_data);
 		  if(dir){
 			  arr_data = (arr_data << 1) + 1;
@@ -126,7 +129,8 @@ int main(void)
 		  }else{
 			  arr_data = (arr_data >> 1) + 0b10000000;
 			  if(arr_data == 0b11111110) dir = 1;
-		  }
+		  };
+		  BEEP;
 	  }
 
   }

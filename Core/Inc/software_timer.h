@@ -13,6 +13,7 @@
 // Timer
 // Timer 0: test
 // Timer 1: Led scan
+// Timer 3: Buzzer
 void setTimer(int timer, int duration);
 int getFlag(int timer);
 void timerRun();

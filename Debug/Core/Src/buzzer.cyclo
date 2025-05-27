@@ -1,0 +1,2 @@
+../Core/Src/buzzer.c:32:6:beep	1
+../Core/Src/buzzer.c:38:6:BUZZER_fsm_run	3

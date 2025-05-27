@@ -1,0 +1,2 @@
+../Core/Src/buzzer.c:32:6:beep	16	static
+../Core/Src/buzzer.c:38:6:BUZZER_fsm_run	8	static
