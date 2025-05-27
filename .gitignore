@@ -1,0 +1,9 @@
+# STM32CubeIDE build files
+Debug/
+*.elf
+*.map
+*.o
+*.d
+*.su
+*.cyclo
+*.list

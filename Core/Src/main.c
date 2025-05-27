@@ -18,13 +18,17 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
+#include "buzzer.h"
+#include "spi.h"
 #include "tim.h"
 #include "gpio.h"
-#include "buzzer.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "software_timer.h"
+#include "led_control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,24 +93,52 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+
+  MX_SPI1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
-
+  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  LED_init();
+  uint8_t count = 0;
+  setTimer(0, 1000);
+
+  uint8_t arr_data = 0b11111110;
+  uint8_t dir = 1;
+  setTimer(2, 100);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // test all api
+
 	  play_startup_sound();
 	  HAL_Delay(5000);
 	  mario_startup_melody();
 	  HAL_Delay(5000);
+
+	  LED_fsm_run();
+	  if(getFlag(0) == 1){
+		  setTimer(0, 1000);
+		  count++;
+		  set_seg_12(count);
+	  };
+
+	  if(getFlag(2) == 1){
+		  setTimer(2, 100);
+		  set_led_array(arr_data);
+		  if(dir){
+			  arr_data = (arr_data << 1) + 1;
+			  if(arr_data == 0b01111111) dir = 0;
+		  }else{
+			  arr_data = (arr_data >> 1) + 0b10000000;
+			  if(arr_data == 0b11111110) dir = 1;
+		  }
+	  }
+
   }
   /* USER CODE END 3 */
 }
