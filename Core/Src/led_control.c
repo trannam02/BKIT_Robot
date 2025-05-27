@@ -3,17 +3,17 @@
 uint8_t data_buffer[3] = {0, 0, 0};
 uint8_t led_control_state = INIT;
 
-uint8_t seven_seg_digits[10] = {
-  0b00111111, // 0 → segments a b c d e f
-  0b00000110, // 1 → segments b c
-  0b01011011, // 2 → segments a b d e g
-  0b01001111, // 3 → segments a b c d g
-  0b01100110, // 4 → segments b c f g
-  0b01101101, // 5 → segments a c d f g
-  0b01111101, // 6 → segments a c d e f g
-  0b00000111, // 7 → segments a b c
-  0b01111111, // 8 → all segments
-  0b01101111  // 9 → segments a b c d f g
+const uint8_t seven_seg_digits[10] = {
+  0b00000011, // 0 → reverse of 0b11000000
+  0b10011111, // 1 → reverse of 0b11111001
+  0b00100101, // 2 → reverse of 0b10100100
+  0b00001101, // 3 → reverse of 0b10110000
+  0b10011001, // 4 → reverse of 0b10011001
+  0b01001001, // 5 → reverse of 0b10010010
+  0b01000001, // 6 → reverse of 0b10000010
+  0b00011111, // 7 → reverse of 0b11111000
+  0b00000001, // 8 → reverse of 0b10000000
+  0b00001001  // 9 → reverse of 0b10010000
 };
 
 
@@ -49,7 +49,7 @@ void LED_fsm_run(){
 	switch(led_control_state){
 		case INIT:
 			led_control_state = SEG1_ACTIVE;
-			setTimer(1, 10);
+			setTimer(1, 5);
 			break;
 		case SEG1_ACTIVE:
 			LED7SEG_ENABLE_1;
@@ -58,7 +58,7 @@ void LED_fsm_run(){
 			latch_data(data_buffer[0]);
 			if(getFlag(1) == 1){ // check timer to switch state
 				led_control_state = SEG2_ACTIVE;
-				setTimer(1, 10);
+				setTimer(1, 5);
 			};
 			break;
 		case SEG2_ACTIVE:
@@ -68,7 +68,7 @@ void LED_fsm_run(){
 			latch_data(data_buffer[1]);
 			if(getFlag(1) == 1){ // check timer to switch state
 				led_control_state = LED_ARRAY_ACTIVE;
-				setTimer(1, 10);
+				setTimer(1, 5);
 			};
 			break;
 		case LED_ARRAY_ACTIVE:
@@ -78,7 +78,7 @@ void LED_fsm_run(){
 			latch_data(data_buffer[2]);
 			if(getFlag(1) == 1){ // check timer to switch state
 				led_control_state = SEG1_ACTIVE;
-				setTimer(1, 10);
+				setTimer(1, 5);
 			};
 			break;
 		default: break;
@@ -97,13 +97,20 @@ uint8_t digit_to_segment(uint8_t digit) {
   return seven_seg_digits[digit];
 }
 void set_seg_1(uint8_t data){
+	LED7SEG_ENABLE_1;
 	data_buffer[0] = digit_to_segment(data);
 };
 void set_seg_2(uint8_t data){
+	LED7SEG_ENABLE_2;
 	data_buffer[1] = digit_to_segment(data);
 };
 void set_led_array(uint8_t data){
+//	LED_ENABLE;
 	data_buffer[2] = data;
+};
+void set_seg_12(uint8_t data){
+	set_seg_1(data/10);
+	set_seg_2(data%10);
 };
 
 
@@ -112,7 +119,7 @@ void set_led_array(uint8_t data){
  * @retval None
  */
 void test_led_control(){
-	set_seg_1(8);
+	set_seg_1(1);
 	set_seg_2(5);
 	set_led_array(0b10101010);
 };

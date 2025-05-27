@@ -34,4 +34,5 @@ void test_led_control();
 void set_seg_1(uint8_t data);
 void set_seg_2(uint8_t data);
 void set_led_array(uint8_t data);
+void set_seg_12(uint8_t data);
 #endif /* INC_LED_CONTROL_H_ */

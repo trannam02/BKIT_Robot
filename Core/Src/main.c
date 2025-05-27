@@ -58,9 +58,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
-};
+
 /* USER CODE END 0 */
 
 /**
@@ -95,30 +93,41 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  LED7SEG_ENABLE_2;
-  LED7SEG_ENABLE_1;
-////  LED_ENABLE;
-//  HAL_GPIO_WritePin(LED_LATCH_GPIO_Port, LED_LATCH_Pin, GPIO_PIN_RESET);
-//  uint8_t data = 0b00001111;
-//  HAL_SPI_Transmit(&hspi1, &data, 1, 1000);
-//  HAL_GPIO_WritePin(LED_LATCH_GPIO_Port, LED_LATCH_Pin, GPIO_PIN_SET);
-//  HAL_GPIO_WritePin(LED_LATCH_GPIO_Port, LED_LATCH_Pin, GPIO_PIN_RESET);
+  LED_init();
+  uint8_t count = 0;
   setTimer(0, 1000);
+
+  uint8_t arr_data = 0b11111110;
+  uint8_t dir = 1;
+  setTimer(2, 100);
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(getFlag(0) == 1){
-		  setTimer(0, 2000);
-		  LED7SEG_DISABLE_1;
-	  }
-	  // test_led_control();
-    /* USER CODE BEGIN 3 */
 
+    /* USER CODE BEGIN 3 */
+	  LED_fsm_run();
+	  if(getFlag(0) == 1){
+		  setTimer(0, 1000);
+		  count++;
+		  set_seg_12(count);
+	  };
+
+	  if(getFlag(2) == 1){
+		  setTimer(2, 100);
+		  set_led_array(arr_data);
+		  if(dir){
+			  arr_data = (arr_data << 1) + 1;
+			  if(arr_data == 0b01111111) dir = 0;
+		  }else{
+			  arr_data = (arr_data >> 1) + 0b10000000;
+			  if(arr_data == 0b11111110) dir = 1;
+		  }
+	  }
 
   }
   /* USER CODE END 3 */
